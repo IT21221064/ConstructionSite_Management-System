@@ -8,41 +8,44 @@ function Auth() {
   const history = useNavigate();
   const [login, setLogin] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+ const handleSubmit = (e) => {
+   e.preventDefault();
+   const email = e.target.email.value;
+   const password = e.target.password.value;
 
-    if (login) {
-      // Accountant login
-      if (email === "accountant@example.com") {
-        signInWithEmailAndPassword(database, email, password)
-          .then((data) => {
-            console.log(data, "authData");
-            history("/Accdashboard");
-          })
-          .catch((err) => {
-            alert(err.code);
-          });
-      } else {
-        alert("Invalid accountant credentials.");
-      }
-    } else {
-      // Management login
-      if (email === "management@example.com") {
-        signInWithEmailAndPassword(database, email, password)
-          .then((data) => {
-            console.log(data, "authData");
-            history("/Mngdashboard");
-          })
-          .catch((err) => {
-            alert(err.code);
-          });
-      } else {
-        alert("Invalid management credentials.");
-      }
-    }
-  };
+   if (login) {
+     // Accountant login
+     if (email.endsWith("@accountant.example.com")) {
+       // Check the email domain
+       signInWithEmailAndPassword(database, email, password)
+         .then((data) => {
+           console.log(data, "authData");
+           history("/Accdashboard");
+         })
+         .catch((err) => {
+           alert(err.code);
+         });
+     } else {
+       alert("Invalid accountant credentials.");
+     }
+   } else {
+     // Management login
+     if (email.endsWith("@management.example.com")) {
+       // Check the email domain
+       signInWithEmailAndPassword(database, email, password)
+         .then((data) => {
+           console.log(data, "authData");
+           history("/Mngdashboard");
+         })
+         .catch((err) => {
+           alert(err.code);
+         });
+     } else {
+       alert("Invalid management credentials.");
+     }
+   }
+ };
+
 
   return (
     <>
