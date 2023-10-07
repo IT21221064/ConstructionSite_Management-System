@@ -1,0 +1,14 @@
+.row{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.activeColor{
+    padding-top: 5px;
+    height: 30px;
+    border: 2px solid grey;
+    cursor: pointer;
+}
+.point{
+    cursor: pointer;
+}
