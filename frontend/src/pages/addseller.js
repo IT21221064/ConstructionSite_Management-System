@@ -9,10 +9,7 @@ function AddSeller() {
     phone: "",
     email: "",
     address: "",
-    item1: "",
-    item2: "",
-    item3: "",
-    item4: "",
+    items: [],
   });
 
   const handleChange = (e) => {
@@ -23,6 +20,35 @@ function AddSeller() {
     });
   };
 
+  const handleAddItem = () => {
+    setFormdata({
+      ...formdata,
+      items: [...formdata.items, { item: "", price: "" }],
+    });
+  };
+
+  const handleRemoveItem = (index) => {
+    const updatedItems = [...formdata.items];
+    updatedItems.splice(index, 1);
+
+    setFormdata({
+      ...formdata,
+      items: updatedItems,
+    });
+  };
+
+  const handleItemChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedItems = [...formdata.items];
+    updatedItems[index][name] = value;
+
+    setFormdata({
+      ...formdata,
+      items: updatedItems,
+    });
+  };
+
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,11 +63,9 @@ function AddSeller() {
         phone: "",
         email: "",
         address: "",
-        item1: "",
-        item2: "",
-        item3: "",
-        item4: "",
+        items: [],
       });
+      navigate("/sellerlist");
     } catch (err) {
       console.error("Error adding seller: ", err);
     }
@@ -87,41 +111,41 @@ function AddSeller() {
           onChange={handleChange}
         />
         <br />
-        <label>Supplying Item 1</label>
-        <br />
-        <input
-          type="text"
-          name="item1"
-          value={formdata.item1}
-          onChange={handleChange}
-        />
-        <br />
-        <label>Supplying Item 2</label>
-        <br />
-        <input
-          type="text"
-          name="item2"
-          value={formdata.item2}
-          onChange={handleChange}
-        />
-        <br />
-        <label>Supplying Item 3</label>
-        <br />
-        <input
-          type="text"
-          name="item3"
-          value={formdata.item3}
-          onChange={handleChange}
-        />
-        <br />
-        <label>Supplying Item 4</label>
-        <br />
-        <input
-          type="text"
-          name="item4"
-          value={formdata.item4}
-          onChange={handleChange}
-        />
+
+        {/* Display the items dynamically */}
+        {formdata.items.map((item, index) => (
+          <div key={index}>
+            <label>Item Code</label>
+            <input
+              type="text"
+              name="itemcode"
+              value={item.itemcode}
+              onChange={(e) => handleItemChange(e, index)}
+            />
+            <label>Item Name</label>
+            <input
+              type="text"
+              name="item"
+              value={item.item}
+              onChange={(e) => handleItemChange(e, index)}
+            />
+            <label>Item Price</label>
+            <input
+              type="text"
+              name="price"
+              value={item.price}
+              onChange={(e) => handleItemChange(e, index)}
+            />
+            <button type="button" onClick={() => handleRemoveItem(index)}>
+              Remove Item
+            </button>
+          </div>
+        ))}
+
+        <button type="button" onClick={handleAddItem}>
+          Add Item
+        </button>
+
         <br />
         <button type="submit">Submit</button>
       </form>
