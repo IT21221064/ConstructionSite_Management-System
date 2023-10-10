@@ -13,7 +13,6 @@ function SiteList() {
       try {
         const sitesCollection = collection(firebasedb, "sites");
         const querySnapshot = await getDocs(sitesCollection);
-
         const siteDetailsArray = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
@@ -53,6 +52,7 @@ function SiteList() {
           <tr>
             <th>Site Name</th>
             <th>Client Name</th>
+            <th>Address</th>
             <th>Total Budget</th>
             <th>Actions</th>
           </tr>
@@ -62,6 +62,7 @@ function SiteList() {
             <tr key={site.id}>
               <td>{site.siteName}</td>
               <td>{site.clientName}</td>
+              <td>{site.address}</td>
               <td>{site.totalBudget}</td>
               <td>
                 <Link to={`/sitedetails/${site.id}`}>
